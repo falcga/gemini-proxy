@@ -1,0 +1,6 @@
+name = "gemini-proxy"
+main = "src/worker.js"
+compatibility_date = "2025-05-21"
+
+[env.production]
+vars = { }
