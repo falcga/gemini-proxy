@@ -5,109 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Модели прокси</title>
     <style>
-        body {
-            font-family: monospace;
-            background: #fff;
-            color: #000;
-            margin: 2rem;
-            line-height: 1.5;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        h1 {
-            font-size: 1.5rem;
-            font-weight: normal;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 0.5rem;
-        }
-        .stats {
-            background: #f5f5f5;
-            padding: 0.5rem 1rem;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-            border-left: 3px solid #888;
-        }
-        input {
-            width: 100%;
-            padding: 0.5rem;
-            font-family: monospace;
-            font-size: 0.9rem;
-            border: 1px solid #ccc;
-            background: #fff;
-            margin-bottom: 1rem;
-            box-sizing: border-box;
-        }
-        .model-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .model-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #eee;
-            font-family: monospace;
-            font-size: 0.85rem;
-        }
-        .model-id {
-            word-break: break-all;
-            flex: 1;
-            padding-right: 1rem;
-        }
-        button {
-            background: #e0e0e0;
-            border: 1px solid #aaa;
-            padding: 0.2rem 0.6rem;
-            font-family: monospace;
-            font-size: 0.75rem;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        button:hover {
-            background: #ccc;
-        }
-        .footer {
-            margin-top: 2rem;
-            font-size: 0.7rem;
-            color: #777;
-            border-top: 1px solid #eee;
-            padding-top: 1rem;
-        }
-        a {
-            color: #000;
-            text-decoration: underline;
-        }
+        body{font-family:monospace;margin:2rem;background:#fff;color:#000}
+        .container{max-width:1000px;margin:0 auto}
+        h1{font-size:1.5rem;font-weight:normal;border-bottom:1px solid #ccc;padding-bottom:0.5rem}
+        .stats{background:#f5f5f5;padding:0.5rem 1rem;margin:1rem 0;font-size:0.9rem;border-left:3px solid #888}
+        input{width:100%;padding:0.5rem;font-family:monospace;border:1px solid #ccc;margin-bottom:1rem;box-sizing:border-box}
+        .model-list{list-style:none;padding:0;margin:0}
+        .model-item{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid #eee;font-family:monospace;font-size:0.85rem}
+        .model-id{word-break:break-all;flex:1;padding-right:1rem}
+        button{background:#e0e0e0;border:1px solid #aaa;padding:0.2rem 0.6rem;font-family:monospace;cursor:pointer}
+        button:hover{background:#ccc}
+        .footer{margin-top:2rem;font-size:0.7rem;color:#777;border-top:1px solid #eee;padding-top:1rem}
     </style>
 </head>
 <body>
 <div class="container">
     <h1>models.json</h1>
-    <div class="stats">
-        <span id="total">—</span> моделей всего<br>
-        последнее обновление: <span id="update">—</span>
-    </div>
-
+    <div class="stats"><span id="total">—</span> моделей всего<br>последнее обновление: <span id="update">—</span></div>
     <input type="text" id="search" placeholder="фильтр (например, flash или 3.5)" autocomplete="off">
-
-    <ul class="model-list" id="modelList">
-        <li>загрузка...</li>
-    </ul>
-
-    <div class="footer">
-        данные берутся из <code>modules/*.js</code> → <code>docs/models.json</code><br>
-        для копирования model id нажмите кнопку → вставьте в поле Model ID в Cline
-    </div>
+    <ul class="model-list" id="modelList"><li>загрузка...</li></ul>
+    <div class="footer">данные берутся из modules/*.js → docs/models.json<br>для копирования model id нажмите кнопку → вставьте в поле Model ID в Cline</div>
 </div>
-
 <script>
     async function load() {
         try {
-            const res = await fetch('models.json');
-            if (!res.ok) throw new Error('models.json не найден');
+            // Антикэширование: добавляем случайный параметр
+            const res = await fetch('models.json?t=' + Date.now(), { cache: 'no-store' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
             const data = await res.json();
             document.getElementById('total').innerText = data.total || data.models?.length || 0;
             document.getElementById('update').innerText = new Date(data.generatedAt).toLocaleString();
@@ -129,7 +53,6 @@
                         <button data-id="${escapeHtml(m.id)}">копировать</button>
                     </li>
                 `).join('');
-                // события для кнопок
                 document.querySelectorAll('button[data-id]').forEach(btn => {
                     btn.addEventListener('click', async () => {
                         const id = btn.getAttribute('data-id');
@@ -138,13 +61,10 @@
                             const oldText = btn.innerText;
                             btn.innerText = '✓ скопировано';
                             setTimeout(() => btn.innerText = oldText, 1000);
-                        } catch (err) {
-                            alert('не удалось скопировать');
-                        }
+                        } catch (err) { alert('не удалось скопировать'); }
                     });
                 });
             }
-
             searchInput.addEventListener('input', render);
             render();
         } catch (err) {
@@ -152,7 +72,6 @@
             console.error(err);
         }
     }
-
     function escapeHtml(str) {
         return str.replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
@@ -161,7 +80,6 @@
             return m;
         });
     }
-
     load();
 </script>
 </body>
