@@ -1,17 +1,382 @@
 {
-  "generatedAt": "2026-05-24T12:00:00.000Z",
-  "total": 14,
+  "generatedAt": "2026-05-24T10:49:25.429Z",
+  "total": 94,
   "models": [
-    { "id": "gemini-3.5-flash", "provider": "Google" },
-    { "id": "gemini-3.1-flash-lite", "provider": "Google" },
-    { "id": "gemini-3-flash-preview", "provider": "Google" },
-    { "id": "gemini-2.5-flash", "provider": "Google" },
-    { "id": "gemini-2.5-flash-lite", "provider": "Google" },
-    { "id": "gemini-2.5-pro", "provider": "Google" },
-    { "id": "gemma-4-31b-it", "provider": "Google" },
-    { "id": "gemma-4-26b-a4b-it", "provider": "Google" },
-    { "id": "qwen3.5-flash", "provider": "Alibaba" },
-    { "id": "qwen3-max", "provider": "Alibaba" },
-    { "id": "deepseek-v4-flash", "provider": "Alibaba" }
+    {
+      "id": "deepseek-v3.2",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "deepseek-v4-flash",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "gemini-2.0-flash",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-2.0-flash-001",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-2.0-flash-lite",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-2.0-flash-lite-001",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-2.5-flash-lite",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-2.5-pro",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-3-flash-preview",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-3-pro-preview",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-3.1-flash-lite",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-3.1-flash-lite-preview",
+      "provider": "Google"
+    },
+    {
+      "id": "gemini-3.5-flash",
+      "provider": "Google"
+    },
+    {
+      "id": "gemma-4-26b-a4b-it",
+      "provider": "Other"
+    },
+    {
+      "id": "gemma-4-31b-it",
+      "provider": "Other"
+    },
+    {
+      "id": "qvq-max",
+      "provider": "Other"
+    },
+    {
+      "id": "qwen-flash",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-flash-2025-07-28",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-flash-character",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-max",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-mt-flash",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-mt-lite",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-mt-plus",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-mt-turbo",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-plus",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-plus-2025-04-28",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-plus-2025-07-14",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-plus-2025-07-28",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-plus-2025-09-11",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-plus-character",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-plus-latest",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-turbo",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-vl-max",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-vl-ocr",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-vl-ocr-2025-11-20",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen-vl-plus",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-0.6b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-14b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-235b-a22b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-235b-a22b-instruct-2507",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-235b-a22b-thinking-2507",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-30b-a3b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-30b-a3b-instruct-2507",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-30b-a3b-thinking-2507",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-32b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-8b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-coder-30b-a3b-instruct",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-coder-480b-a35b-instruct",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-coder-flash",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-coder-flash-2025-07-28",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-coder-next",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-coder-plus",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-coder-plus-2025-07-22",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-coder-plus-2025-09-23",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-max",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-max-2025-09-23",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-max-2026-01-23",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-max-preview",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-next-80b-a3b-instruct",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-next-80b-a3b-thinking",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-235b-a22b-instruct",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-235b-a22b-thinking",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-30b-a3b-instruct",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-30b-a3b-thinking",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-8b-instruct",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-8b-thinking",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-flash",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-flash-2025-10-15",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-flash-2026-01-22",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-plus",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-plus-2025-09-23",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3-vl-plus-2025-12-19",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.5-122b-a10b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.5-27b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.5-35b-a3b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.5-397b-a17b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.5-flash",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.5-flash-2026-02-23",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.5-plus",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.5-plus-2026-02-15",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.5-plus-2026-04-20",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.6-27b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.6-35b-a3b",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.6-flash",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.6-flash-2026-04-16",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.6-max-preview",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.6-plus",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.6-plus-2026-04-02",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.7-max",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwen3.7-max-2026-05-20",
+      "provider": "Alibaba"
+    },
+    {
+      "id": "qwq-plus",
+      "provider": "Other"
+    },
+    {
+      "id": "wan2.2-kf2v-flash",
+      "provider": "Other"
+    }
   ]
 }
