@@ -25,7 +25,6 @@
             gap: 2rem;
             align-items: start;
         }
-        /* левая колонка — модели */
         .models-panel {
             background: #ffffff;
             border-radius: 20px;
@@ -97,7 +96,6 @@
             margin-top: 0.25rem;
             margin-left: 0.3rem;
         }
-        /* правая колонка — оригинальный парсер */
         .parser-panel {
             background: #ffffff;
             border-radius: 20px;
@@ -106,7 +104,6 @@
             overflow: hidden;
             padding: 1.5rem;
         }
-        /* стили внутри парсера (почти без изменений) */
         .container {
             max-width: 100%;
             margin: 0;
@@ -299,13 +296,14 @@
                     <span class="model-badge badge-gemini">gemini-2.0-flash-lite</span>
                     <span class="model-badge badge-gemini">gemma-4-31b-it</span>
                     <span class="model-badge badge-gemini">gemma-4-26b-a4b-it</span>
+                    <span class="model-badge badge-gemini">gemini-2.5-flash-preview-05-20</span>
+                    <span class="model-badge badge-gemini">gemini-2.5-pro-preview-05-20</span>
                 </div>
                 <div class="context-note">✨ контекст до 1M токенов (Gemma 256K)</div>
             </div>
             <div class="model-group">
                 <div class="group-title">🐉 Qwen (Alibaba Cloud) — бесплатно 1M запросов</div>
                 <div>
-                    <!-- динамически вставим список qwen моделей из js, но для читаемости покажем основные -->
                     <span class="model-badge badge-qwen">qwen3.5-flash</span>
                     <span class="model-badge badge-qwen">qwen3.5-plus</span>
                     <span class="model-badge badge-qwen">qwen3.5-122b-a10b</span>
@@ -336,7 +334,7 @@
         </div>
     </div>
 
-    <!-- ПРАВАЯ КОЛОНКА: ОРИГИНАЛЬНЫЙ ПАРСЕР -->
+    <!-- ПРАВАЯ КОЛОНКА: ПАРСЕР -->
     <div class="parser-panel">
         <div class="container">
             <h1>🔍 api response parser · gemini / qwen</h1>
@@ -349,8 +347,9 @@
 
             <div class="button-group">
                 <button id="parseBtn">🔍 анализировать</button>
-                <button id="exampleGeminiBtn">📋 пример gemini (429)</button>
-                <button id="exampleQwenBtn">🧩 пример qwen (400 quota)</button>
+                <button id="exampleGeminiBtn">📋 gemini (429)</button>
+                <button id="exampleLocationBtn">🌍 gemini (location error)</button>
+                <button id="exampleQwenBtn">🧩 qwen (400 quota)</button>
                 <button id="clearBtn">✖️ очистить</button>
             </div>
 
@@ -365,7 +364,7 @@
             </div>
 
             <div class="footer">
-                🧩 парсеры: gemini, qwen — добавление нового: скопируйте шаблон в массив `PARSERS`<br>
+                🧩 парсеры: gemini (включая location error), qwen — добавление нового: скопируйте шаблон в массив `PARSERS`<br>
                 данные обрабатываются локально в браузере, ничего не отправляется на сервер.
             </div>
         </div>
@@ -374,7 +373,7 @@
 
 <script>
     // --------------------------------------------------------------
-    // 1. БАЗОВЫЕ УТИЛИТЫ (без изменений)
+    // 1. БАЗОВЫЕ УТИЛИТЫ
     // --------------------------------------------------------------
     const Utils = {
         cleanMessage: function(msg) {
@@ -415,7 +414,7 @@
         PARSERS.push(parser);
     }
 
-    // ----- ПАРСЕР GEMINI -----
+    // ----- ПАРСЕР GEMINI (с поддержкой location error) -----
     const GeminiParser = {
         name: 'Gemini',
         canParse: function(raw) {
@@ -451,14 +450,16 @@
         },
         _formatError: function(err, original) {
             const code = err.code || 500;
-            const rawMsg = err.message || 'Unknown error';
-            const msg = Utils.cleanMessage(rawMsg);
+            let rawMsg = err.message || 'Unknown error';
+            let msg = Utils.cleanMessage(rawMsg);
             const status = err.status || '';
+            
             let cat = 'unknown';
             if (code === 429) cat = 'rate_limit';
             else if (code === 503) cat = 'service_unavailable';
             else if (code === 401) cat = 'unauthorized';
             else if (code === 403) cat = 'forbidden';
+            else if (code === 400 && (msg.includes('location not supported') || msg.includes('User location is not supported'))) cat = 'location_blocked';
             else if (code === 400) cat = 'bad_request';
             else if (code >= 500) cat = 'server_error';
 
@@ -470,7 +471,11 @@
                 message: msg,
                 timestamp: Utils.nowISO()
             };
-            if (code === 429 || msg.toLowerCase().includes('quota')) {
+            
+            // специализированные советы
+            if (cat === 'location_blocked') {
+                result.suggestion = 'Ваш регион не поддерживается для использования Gemini API. Попробуйте использовать VPN или обратитесь к документации Google.';
+            } else if (code === 429 || msg.toLowerCase().includes('quota')) {
                 result.is_rate_limit = true;
                 const retry = Utils.extractRetrySeconds(msg);
                 if (retry) result.retry_after = retry;
@@ -486,11 +491,12 @@
                 result.suggestion = 'Проверьте API ключ.';
             } else if (code === 403) {
                 result.suggestion = 'Доступ запрещён. Проверьте права.';
-            } else if (code === 400) {
-                result.suggestion = 'Проверьте параметры запроса.';
+            } else if (code === 400 && !result.suggestion) {
+                result.suggestion = 'Проверьте параметры запроса или региональные ограничения.';
             } else if (code >= 500) {
                 result.suggestion = 'Ошибка на стороне сервера. Повторите позже.';
             }
+            
             if (original) {
                 if (original.modelId) result.model_id = original.modelId;
                 if (original.providerId) result.provider_id = original.providerId;
@@ -707,6 +713,12 @@
 
     document.getElementById('exampleGeminiBtn').addEventListener('click', () => {
         const example = `{"message":"{\\"error\\":{\\"message\\":\\"{\\\\n  \\"error\\": {\\\\n    \\"code\\": 429,\\\\n    \\"message\\": \\"You exceeded your current quota... Please retry in 50.46s.\\",\\\\n    \\"status\\": \\"RESOURCE_EXHAUSTED\\"\\\\n  }\\\\n}\\\\n\\",\\"code\\":429,\\"status\\":\\"Too Many Requests\\"}}","status":429,"modelId":"gemini-2.5-flash","providerId":"gemini"}`;
+        document.getElementById('apiResponse').value = example;
+        document.getElementById('parseBtn').click();
+    });
+
+    document.getElementById('exampleLocationBtn').addEventListener('click', () => {
+        const example = `{"message":"{\\"error\\":{\\"message\\":\\"{\\\\n  \\"error\\": {\\\\n    \\"code\\": 400,\\\\n    \\"message\\": \\"User location is not supported for the API use.\\",\\\\n    \\"status\\": \\"FAILED_PRECONDITION\\"\\\\n  }\\\\n}\\\\n\\",\\"code\\":400,\\"status\\":\\"Bad Request\\"}}","status":400,"modelId":"gemini-2.5-flash","providerId":"gemini"}`;
         document.getElementById('apiResponse').value = example;
         document.getElementById('parseBtn').click();
     });
